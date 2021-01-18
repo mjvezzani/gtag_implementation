@@ -1,16 +1,13 @@
-const { exec } = require("child_process");
+const { exec } = require('child_process');
 
 module.exports = {
-  onPostBuild: ({ utils: {run} }) => {
-    exec("../../build.sh", (error, stdout, stderr) => {
-      if (error) {
-        console.error(error.message);
-        return;
-      }
-      if (stderr) {
-        console.error(stderr);
-        return;
-      }
+  onPostBuild: () => {
+    console.log('About to run shell script');
+    exec("sh ../../build.sh", (e, out, err) => {
+      if (e) { console.log(e) }
+      if (err) { console.log(err) }
+      console.log(`out: ${out}`);
     });
+    console.log('Finished running shell script');
   },
 }
