@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1NCQ4Z466"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1NCQ4Z466"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-      gtag('config', 'G-G1NCQ4Z466');
-    </script>
+    gtag('config', 'G-G1NCQ4Z466');
+  </script>
   </head>
   <body>
     <h1>Here are some goofy looking animals</h1>
     <img
       src="https://pulptastic.com/wp-content/uploads/2014/04/funny-derpy-animals-5.jpg"
-      onclick="gtag('event', 'Derp Dog', {
-        'event_category': 'Animals'
-      })"
+      onclick="abstractedAnalytics('send', 'event', 'Animals', 'Derp Dog')"
     />
     <img 
       src="https://pulptastic.com/wp-content/uploads/2014/04/funny-derpy-animals-6.jpg"
-      onclick="gtag('event', 'Broken Nosed Tapir', {
-        'event_category': 'Animals'
-      })"
+      onclick="abstractedAnalytics('send', 'event', 'Animals', 'Broken Nosed Tapir')"
     />
     <img 
       src="https://pulptastic.com/wp-content/uploads/2014/04/funny-derpy-animals-55.jpg"
-      onclick="gtag('event', 'Punchline Chameleon', {
-        'event_category': 'Animals'
-      })"
+      onclick="abstractedAnalytics('send', 'event', 'Animals', 'Punchline Chameleon')"
     />
     <img 
       src="https://pulptastic.com/wp-content/uploads/2014/04/funny-derpy-animals-34.jpg"
-      onclick="gtag('event', 'Segfault Giraffe', {
-        'event_category': 'Animals'
-      })"
+      onclick="abstractedAnalytics('send', 'event', 'Animals', 'Segfault Giraffe')"
     />
+
+    <script>
+      function parseCommand(originalCommand) {
+        var commandArray = originalCommand.split('.');
+        return commandArray[commandArray.length - 1];
+      }
+
+      function abstractedAnalytics(originalCommand, event, eventCategory, eventAction) {
+        var command = this.parseCommand(originalCommand);
+        switch(command) {
+          case 'create':
+            break;
+          case 'send':
+            gtag('event', eventAction, { 'event_category': eventCategory });
+            break;
+          case 'set':
+            var data = {};
+            data[event] = eventCategory;
+            gtag('set', data);
+            break;
+          default:
+            this.error('gtag() command not found! Command: ' + command);
+        }
+      }
+    </script>
   </body>
-  
 </html>
